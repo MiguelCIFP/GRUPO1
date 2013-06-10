@@ -8,15 +8,14 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-
 public class Escenario extends JPanel implements Runnable,ActionListener{
+	private PacMan pacman;
+	private CtrlJuego cJ;
 	private Laberinto l=Laberinto.ORIGINAL;
-	private PacMan pacman=new PacMan(l,"/img/comecocos.png");
 	Thread t;
-	boolean iniciado= false;
-	Direccion direccion;
 	public Escenario() {
-		direccion=pacman.getDireccion();
+		cJ=new CtrlJuego();
+		pacman= cJ.getPacman();
 		setPreferredSize(new Dimension(l.getImagen().getWidth(),l.getImagen().getHeight()));
 		registerKeyboardAction(this, "iniciar",
 				  KeyStroke.getKeyStroke(KeyEvent.VK_I, 0),
@@ -36,26 +35,26 @@ public class Escenario extends JPanel implements Runnable,ActionListener{
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
+		 
 		g.drawImage(l.getImagen(), 0, 0, this);
 		int x = (int) pacman.getPosicion().x;
 		int y = (int) pacman.getPosicion().y;
-		int xs=35;
-		int ys=70;
+		int xs=pacman.getDsx();
+		int ys=pacman.getDsy();
 		g.drawImage(pacman.getImg(), x, y, x+35, y+35, xs, ys, xs+35, ys+35, this);
 		
 	}
 	public void iniciar(){
+		cJ.inicioJuego();
 		t=new Thread(this);
-		iniciado=true;
 		t.start();
 	}
 	@Override
 	public void run() {
-		while(iniciado){
-			pacman.mover(0.5,direccion);
+		while(true){
 			repaint();
 			try {
-				Thread.sleep(5);
+				Thread.sleep(16);
 			} catch (InterruptedException e) {
 				
 			}
@@ -67,13 +66,13 @@ public class Escenario extends JPanel implements Runnable,ActionListener{
 		if(e.getActionCommand().equals("iniciar"))
 				iniciar();
 		else if(e.getActionCommand().equals("arriba"))
-			direccion=Direccion.ARRIBA;
+			cJ.cambiarDireccion(Direccion.ARRIBA);
 		else if(e.getActionCommand().equals("abajo"))
-			direccion=Direccion.ABAJO;
+			cJ.cambiarDireccion(Direccion.ABAJO);
 		else if(e.getActionCommand().equals("izquierda"))
-			direccion=Direccion.IZDA;
+			cJ.cambiarDireccion(Direccion.IZDA);
 		else if(e.getActionCommand().equals("derecha"))
-			direccion=Direccion.DERECHA;
+			cJ.cambiarDireccion(Direccion.DERECHA);
 	}
 	
 }
