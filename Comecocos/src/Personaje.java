@@ -38,19 +38,19 @@ public abstract class Personaje {
 			
 			boolean seHaMovido = false;
 			//comprueba si puede moverse en esa direccion
-			if ((direccion == Direccion.DERECHA) && (posicion.getX()%19 != 0 || !laberinto.muro(fil, colSgt))) {
+			if ((direccion == Direccion.DERECHA) && ((int) posicion.x%19 != 0 || !laberinto.muro(fil, colSgt))) {
 				posicion.x += velocidad;
 				seHaMovido = true;
 			}
-			else if ((direccion == Direccion.IZDA) && (posicion.getX()%19 != 0 || !laberinto.muro(fil, colAnt))) {
+			else if ((direccion == Direccion.IZDA) && ((int) posicion.x%19 != 0 || !laberinto.muro(fil, colAnt))) {
 				posicion.x -= velocidad;
 				seHaMovido = true;
 			}
-			else if ((direccion == Direccion.ABAJO) && (posicion.getY()%19 != 0 || !laberinto.muro(filSgt, col))) {
+			else if ((direccion == Direccion.ABAJO) && ((int) posicion.y%19 != 0 || !laberinto.muro(filSgt, col))) {
 				posicion.y += velocidad;
 				seHaMovido = true;
 			}
-			else if ((direccion == Direccion.ARRIBA) && (posicion.getY()%19 != 0 || !laberinto.muro(filAnt, col))) {
+			else if ((direccion == Direccion.ARRIBA) && ((int) posicion.y%19 != 0 || !laberinto.muro(filAnt, col))) {
 				posicion.y -= velocidad;
 				seHaMovido = true;
 			}
